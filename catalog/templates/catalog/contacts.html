@@ -1,8 +1,9 @@
 {% extends 'catalog/base.html' %}
 
+
 {% block content %}
 <h3>This contacts page</h3>
-<h3>Form for senf information.</h3>
+<h3>Form for send feedback.</h3>
 <form method="post">
 {% csrf_token %}
     Input NAME:  <input type="text" name="name"/><p>
@@ -12,3 +13,4 @@
     <input type="submit" value="Send">
 </form>
 {% endblock %}
+
