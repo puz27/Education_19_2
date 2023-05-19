@@ -6,11 +6,15 @@
 <h3>Form for send feedback.</h3>
 <form method="post">
 {% csrf_token %}
+    <p>
     Input NAME:  <input type="text" name="name"/><p>
     Input SURNAME:  <input type="text" name ="surname"/><p>
     Input EMAIL:  <input type="email" name ="email"/><p>
     FEEDBACK:  <textarea name="feedback"></textarea><p>
     <input type="submit" value="Send">
 </form>
+
+
 {% endblock %}
+
 
