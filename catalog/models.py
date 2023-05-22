@@ -16,5 +16,6 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="category_name")
     description = models.TextField(null=True, blank=True, verbose_name="category_description")
-    time_create = models.DateField(auto_now_add=True)
+    # time_create = models.DateField(auto_now_add=True)
+
 
