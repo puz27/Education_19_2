@@ -9,8 +9,16 @@ class Product(models.Model):
     image = models.ImageField(upload_to="media")
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     price = models.IntegerField(verbose_name="product_price")
-    time_create = models.DateField(auto_now_add=True, verbose_name="product_create")
-    time_update = models.DateField(auto_now=True, verbose_name="product_update")
+    time_create = models.DateField(auto_now_add=True, verbose_name="creation_date")
+    time_update = models.DateField(auto_now=True, verbose_name="update_date")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "product_name"
+        verbose_name_plural = "products"
+        ordering = ["time_create", "name"]
 
 
 class Category(models.Model):
@@ -18,4 +26,10 @@ class Category(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name="category_description")
     # time_create = models.DateField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "category_name"
+        verbose_name_plural = "categories"
 
