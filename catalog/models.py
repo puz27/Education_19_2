@@ -1,6 +1,4 @@
 from django.db import models
-from django.utils import timezone
-from config import settings
 
 
 class Product(models.Model):
