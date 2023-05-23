@@ -3,5 +3,8 @@
 
 {% block content %}
 <h3>This main page</h3>
-
+<h3>Last five items in our shop:</h3>
+{% for item in items%}
+<li>{{ item.name }} </li>
+{% endfor %}
 {% endblock %}
