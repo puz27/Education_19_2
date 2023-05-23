@@ -12,6 +12,8 @@ class Command(BaseCommand):
             {"id": 102, "name": "Items", "description": "Cool items!"},
             {"id": 103, "name": "Kitchen", "description": "All for kitchen."},
             {"id": 104, "name": "Guitars", "description": "All for rock-n-roll."},
+            {"id": 105, "name": "Cotton", "description": "All for you!."},
+            {"id": 106, "name": "Sport", "description": "All for sport."},
             ]
         old_categories_list = []
         categories_for_create = []

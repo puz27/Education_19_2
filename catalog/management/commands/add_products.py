@@ -12,6 +12,8 @@ class Command(BaseCommand):
             {"name": "Dog", "description": "Little dog.", "image": "images/dog.png", "category_id": 101, "price": 222},
             {"name": "TV-SET", "description": "Samsung.", "image": "images/TV.png", "category_id": 100, "price": 10000},
             {"name": "Gibson", "description": "Best guitar!", "image": "images/gibson.png", "category_id": 104, "price": 5000},
+            {"name": "Fender", "description": "Best guitar!", "image": "images/fender.png", "category_id": 104, "price": 7000},
+            {"name": "ESP", "description": "Best guitar!", "image": "images/ESP.png", "category_id": 104, "price": 4000},
             ]
         old_items_list = []
         items_for_create = []
