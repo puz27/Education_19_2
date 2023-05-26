@@ -3,7 +3,7 @@ from .models import Product, Contacts
 
 
 def index(request):
-    items = Product.objects.all().order_by('-id')[:5]
+    items = Product.objects.all().order_by('-id')[:6]
     content = {"Title": "Main Page", "main": "main", "items": items}
     return render(request, "catalog/index.html", content)
 

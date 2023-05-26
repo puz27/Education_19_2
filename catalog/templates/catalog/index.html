@@ -1,4 +1,5 @@
 {% extends 'catalog/base.html' %}
+{% load catalog_tags %}
 {% block content %}
 
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
@@ -6,14 +7,17 @@
         <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
           <div class="card-header py-3">
-            <h4 class="my-0 fw-normal">{{item.name}}</h4>
+            <h4 class="my-0 fw-normal">{{ item.name }}</h4>
           </div>
             <div class="card-body">
             <h1 class="card-title pricing-card-title">$0<small class="text-body-secondary fw-light">/mo</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
-              <li>{{item.name}}</li>
-              <li>{{item.price}}</li>
-              <li>{{item.description }}</li>
+              <li>PRICE: {{item.price}}</li>
+              <li>DESCRIPTION: {{item.description | slice:100 }}</li>
+              <li>{{item.image}}</li>
+<!--          <li><img src="/media/{{ item.image }}" width="100" alt="{{ item.name }}"></li>-->
+<!--          <li><img src="{{ item.image | media_path_template }}" width="100" alt="{{ item.name }}"></li>-->
+              <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
             </ul>
             <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
             </div>
