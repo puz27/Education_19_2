@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
 from .models import Product, Contacts
+
 
 
 def index(request):
@@ -20,3 +22,14 @@ def contacts(request):
     print(name, surname, email, feedback)
 
     return render(request, "catalog/contacts.html", content)
+
+
+def add_product(request):
+    if request.method == 'POST' and request.FILES['upload']:
+        upload = request.FILES['upload']
+        fss = FileSystemStorage(location="media/images")
+        file = fss.save(upload.name, upload)
+        print(upload.name)
+        file_url = fss.url(file)
+        return render(request, 'catalog/add_product.html', {'file_url': file_url})
+    return render(request, 'catalog/add_product.html')
