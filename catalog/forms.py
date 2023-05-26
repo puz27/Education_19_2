@@ -7,5 +7,5 @@ class AppProductForm(forms.Form):
     description = forms.CharField(max_length=100)
     category = forms.ModelChoiceField(queryset=Category.objects.all())
     price = forms.IntegerField()
-    # image = forms.ImageField()
+    image = forms.ImageField()
 

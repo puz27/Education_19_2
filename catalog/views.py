@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from django.core.files.storage import FileSystemStorage
 from .models import Product, Contacts
-
+from .forms import AppProductForm
 
 
 def index(request):
@@ -25,11 +24,25 @@ def contacts(request):
 
 
 def add_product(request):
-    if request.method == 'POST' and request.FILES['upload']:
-        upload = request.FILES['upload']
-        fss = FileSystemStorage(location="media/images")
-        file = fss.save(upload.name, upload)
-        print(upload.name)
-        file_url = fss.url(file)
-        return render(request, 'catalog/add_product.html', {'file_url': file_url})
-    return render(request, 'catalog/add_product.html')
+    if request.method == "POST":
+        form = AppProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            image = form.cleaned_data.get("image")
+            description = form.cleaned_data.get("description")
+            price = form.cleaned_data.get("price")
+            category = form.cleaned_data.get("category")
+            obj = Product.objects.create(
+                                 name=name,
+                                 image=image,
+                                 description=description,
+                                 price=price,
+                                 category=category)
+            obj.save()
+            print(obj)
+    else:
+        form = AppProductForm()
+    context = {"form": form}
+    return render(request, 'catalog/add_product.html', context)
+
+
