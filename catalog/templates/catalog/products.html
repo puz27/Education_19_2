@@ -1,0 +1,8 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+NUMBER OF PAGE: {{page_id}}<p>
+PRODUCTS:<p>
+{% for product in products %}
+<li>{{product}}</li>
+{% endfor %}
+{% endblock %}

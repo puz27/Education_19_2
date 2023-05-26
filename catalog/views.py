@@ -4,12 +4,14 @@ from .forms import AppProductForm
 
 
 def index(request):
+    """Main page"""
     items = Product.objects.all().order_by('-id')[:6]
     content = {"Title": "Main Page", "main": "main", "items": items}
     return render(request, "catalog/index.html", content)
 
 
 def contacts(request):
+    """Page with contacts from admin panel"""
     info_contacts = Contacts.objects.all()
 
     name = request.POST.get("name")
@@ -24,6 +26,7 @@ def contacts(request):
 
 
 def add_product(request):
+    """Page where user can add products to base"""
     if request.method == "POST":
         form = AppProductForm(request.POST, request.FILES)
         if form.is_valid():
@@ -42,7 +45,15 @@ def add_product(request):
             print(obj)
     else:
         form = AppProductForm()
-    context = {"form": form}
-    return render(request, 'catalog/add_product.html', context)
+    content = {"form": form}
+    return render(request, 'catalog/add_product.html', content)
 
+
+def products(request, page_id):
+    """Show 10 products on page"""
+    start_products_count = page_id * 10 - 10
+    end_products_count = page_id * 10
+    products = Product.objects.all().order_by('-id')[start_products_count:end_products_count]
+    content = {"page_id": page_id, "products": products}
+    return render(request, "catalog/products.html", content)
 
