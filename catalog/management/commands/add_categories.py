@@ -4,16 +4,15 @@ from catalog.models import Category
 
 class Command(BaseCommand):
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
+        """Add information categories"""
+
         print("Add information categories.")
         new_categories_list = [
-            {"id": 100, "name": "TV", "description": "All for TV."},
-            {"id": 101, "name": "Toys", "description": "All for kids."},
-            {"id": 102, "name": "Items", "description": "Cool items!"},
-            {"id": 103, "name": "Kitchen", "description": "All for kitchen."},
-            {"id": 104, "name": "Guitars", "description": "All for rock-n-roll."},
-            {"id": 105, "name": "Cotton", "description": "All for you!."},
-            {"id": 106, "name": "Sport", "description": "All for sport."},
+            {"id": 100, "name": "furniture", "description": "furniture"},
+            {"id": 101, "name": "kitchenware", "description": "kitchenware"},
+            {"id": 102, "name": "lighting", "description": "lighting"},
+            {"id": 103, "name": "textiles", "description": "textiles"}
             ]
         old_categories_list = []
         categories_for_create = []

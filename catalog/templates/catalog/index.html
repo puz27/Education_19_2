@@ -4,7 +4,7 @@
 
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
       <h1 class="display-4 fw-normal">Pricing</h1>
-      <p class="fs-5 text-body-secondary">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+      <p class="fs-5 text-body-secondary">Here you cam see last 6 product on site.</p>
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
@@ -15,16 +15,14 @@
             <h4 class="my-0 fw-normal">{{ item.name }}</h4>
           </div>
             <div class="card-body">
-            <h1 class="card-title pricing-card-title">$0<small class="text-body-secondary fw-light">/mo</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
+             <ul class="list-unstyled mt-3 mb-4">
               <li>PRICE: {{item.price}}</li>
               <li>DESCRIPTION: {{item.description | slice:100 }}</li>
-              <li>{{item.image}}</li>
 <!--          <li><img src="/media/{{ item.image }}" width="100" alt="{{ item.name }}"></li>-->
 <!--          <li><img src="{{ item.image | media_path_template }}" width="100" alt="{{ item.name }}"></li>-->
               <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
             </ul>
-            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
+            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Temp button</button>
             </div>
         </div>
       </div>

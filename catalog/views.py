@@ -3,14 +3,14 @@ from .models import Product, Contacts
 from .forms import AppProductForm
 
 
-def index(request):
+def index(request) -> render:
     """Main page"""
     items = Product.objects.all().order_by('-id')[:6]
     content = {"Title": "Main Page", "main": "main", "items": items}
     return render(request, "catalog/index.html", content)
 
 
-def contacts(request):
+def contacts(request) -> render:
     """Page with contacts from admin panel"""
     info_contacts = Contacts.objects.all()
 
@@ -25,7 +25,7 @@ def contacts(request):
     return render(request, "catalog/contacts.html", content)
 
 
-def add_product(request):
+def add_product(request) -> render:
     """Page where user can add products to base"""
     if request.method == "POST":
         form = AppProductForm(request.POST, request.FILES)
@@ -49,11 +49,10 @@ def add_product(request):
     return render(request, 'catalog/add_product.html', content)
 
 
-def products(request, page_id):
+def products(request, page_id: int) -> render:
     """Show 10 products on page"""
     start_products_count = page_id * 10 - 10
     end_products_count = page_id * 10
     products = Product.objects.all().order_by('-id')[start_products_count:end_products_count]
     content = {"page_id": page_id, "products": products}
     return render(request, "catalog/products.html", content)
-
