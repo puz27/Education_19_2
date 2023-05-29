@@ -1,11 +1,11 @@
 from django.urls import path
-from catalog.views import index, contacts, add_product, products, product_card
+from catalog.views import products, ShopHome, ShopContacts, ShopProductCard, ShopAddProduct
 
 
 urlpatterns = [
-    path("", index, name="index_page"),
-    path("contacts/", contacts, name="contacts_page"),
-    path("add_product/", add_product, name="add_product"),
+    path("", ShopHome.as_view(), name="index_page"),
+    path("contacts/", ShopContacts.as_view(), name="contacts_page"),
+    path("add_product/", ShopAddProduct.as_view(), name="add_product"),
     path("products/<int:page_id>/", products, name="products"),
-    path("product_card/<int:id>/", product_card, name="product_card")
+    path("product_card/<int:id>/", ShopProductCard.as_view(), name="product_card")
 ]

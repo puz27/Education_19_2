@@ -2,9 +2,9 @@
 {% load catalog_tags %}
 
 {% block content %}<p>
-NAME: {{ name }}<p>
-PRICE: {{ price }}<p>
-DESCRIPTION: {{ description }}<p>
-<img src="{% media_path image %}" width="300">
+NAME: {{ product.name }}<p>
+PRICE: {{ product.price }}<p>
+DESCRIPTION: {{ product.description }}<p>
+<img src="{% media_path product.image %}" width="300">
 
 {% endblock %}

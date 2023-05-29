@@ -1,6 +1,5 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
-<h3>Add new item to shop.</h3>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
