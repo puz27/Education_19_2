@@ -56,3 +56,14 @@ def products(request, page_id: int) -> render:
     products = Product.objects.all().order_by('-id')[start_products_count:end_products_count]
     content = {"page_id": page_id, "products": products}
     return render(request, "catalog/products.html", content)
+
+
+def product_card(request, id) -> render:
+    show_card = Product.objects.get(pk=id)
+    content = {"id": id,
+               "name": show_card.name,
+               "price": show_card.price,
+               "description": show_card.description,
+               "image": show_card.image
+               }
+    return render(request, "catalog/product_card.html", content)

@@ -22,7 +22,8 @@
 <!--          <li><img src="{{ item.image | media_path_template }}" width="100" alt="{{ item.name }}"></li>-->
               <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
             </ul>
-            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Temp button</button>
+<!--            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Show</button>-->
+           <a href="{% url 'product_card' item.pk %}" class="w-100 btn btn-lg btn-outline-primary">Show</a>
             </div>
         </div>
       </div>
