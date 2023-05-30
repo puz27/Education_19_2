@@ -1,9 +1,11 @@
 from django.urls import reverse_lazy
 from .models import Product, Contacts, Blog
 from django.views.generic import ListView, DetailView, CreateView
+from django.core.mail import send_mail
 
 
 class ShopHome(ListView):
+    """ Main page. Show last 6 products."""
     model = Product
     template_name = "catalog/index.html"
     context_object_name = "items"
@@ -18,6 +20,7 @@ class ShopHome(ListView):
 
 
 class ShopContacts(ListView):
+    """Contacts"""
     model = Contacts
     template_name = "catalog/contacts.html"
     context_object_name = "info_contacts"
@@ -29,10 +32,11 @@ class ShopContacts(ListView):
 
 
 class ShopAddProduct(CreateView):
+    """Add Product"""
     model = Product
     template_name = "catalog/add_product.html"
     fields = ["name", "slug", "price", "category",  "description", "image"]
-    success_url = reverse_lazy("add_product")
+    success_url = reverse_lazy("index_page")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,6 +45,7 @@ class ShopAddProduct(CreateView):
 
 
 class ShopProductCard(DetailView):
+    """Information about product"""
     model = Product
     template_name = "catalog/product_card.html"
     context_object_name = "product"
@@ -53,6 +58,7 @@ class ShopProductCard(DetailView):
 
 
 class ShopBlog(ListView):
+    """Show all Blog that have True published status"""
     model = Blog
     template_name = "catalog/blog.html"
     context_object_name = "all_blogs"
@@ -63,11 +69,11 @@ class ShopBlog(ListView):
         return context
 
     def get_queryset(self):
-        # return Blog.objects.all().order_by('-id')[:9]
         return Blog.objects.all().filter(is_published=True)
 
 
 class ShopBlogCard(DetailView):
+    """Information about blog"""
     model = Blog
     template_name = "catalog/blog_card.html"
     context_object_name = "blog"
@@ -86,6 +92,7 @@ class ShopBlogCard(DetailView):
 
 
 class ShopAddBlog(CreateView):
+    """Add blog"""
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "slug", "description", "is_published", "image"]
