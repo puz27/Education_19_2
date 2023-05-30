@@ -9,6 +9,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name="product_price")
     time_create = models.DateField(auto_now_add=True, verbose_name="creation_date")
     time_update = models.DateField(auto_now=True, verbose_name="update_date")
+    slug = models.SlugField(max_length=255, verbose_name="product_slug")
 
     def __str__(self):
         return self.name
@@ -44,3 +45,21 @@ class Contacts(models.Model):
     class Meta:
         verbose_name = "contact"
         verbose_name_plural = "contacts"
+
+
+class Blog(models.Model):
+    name = models.CharField(max_length=100, verbose_name="blog_name")
+    slug = models.SlugField(max_length=255, verbose_name="blog_slug")
+    description = models.TextField(null=True, blank=True, verbose_name="blog_description")
+    image = models.ImageField(upload_to="images")
+    time_create = models.DateField(auto_now_add=True, verbose_name="creation_date")
+    is_published = models.BooleanField(default=True)
+    view_count = models.IntegerField(verbose_name="counts_views", default=0)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "blog"
+        verbose_name_plural = "blogs"
+        ordering = ["time_create", "name"]

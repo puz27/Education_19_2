@@ -17,14 +17,13 @@
             <div class="card-body">
              <ul class="list-unstyled mt-3 mb-4">
               <li>PRICE: {{item.price}}</li>
-              <li>DESCRIPTION: {{item.description | slice:100 }}</li>
+              <li>DESCRIPTION: {{item.description | slice:100 }}</li><p>
 <!--          <li><img src="/media/{{ item.image }}" width="100" alt="{{ item.name }}"></li>-->
 <!--          <li><img src="{{ item.image | media_path_template }}" width="100" alt="{{ item.name }}"></li>-->
-                 {% media_path item.image %}
-                <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
+              <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
             </ul>
 <!--            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Show</button>-->
-           <a href="{% url 'product_card' item.pk %}" class="w-100 btn btn-lg btn-outline-primary">Show</a>
+           <a href="{% url 'product_card' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a>
             </div>
         </div>
       </div>

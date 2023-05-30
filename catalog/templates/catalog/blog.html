@@ -1,0 +1,23 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+{% load catalog_tags %}
+
+ <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+         {% for blog in all_blogs %}
+        <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">{{ blog.name }}</h4>
+          </div>
+            <div class="card-body">
+             <ul class="list-unstyled mt-3 mb-4">
+                 <li><img src="{% media_path blog.image %}" width="150" alt="{{ blog.name }}"></li>
+             </ul>
+             <a href="{% url 'blog_card' blog.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a>
+            </div>
+        </div>
+      </div>
+         {% endfor %}
+    </div>
+
+{% endblock %}

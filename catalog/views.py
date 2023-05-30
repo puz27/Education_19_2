@@ -1,6 +1,5 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
-from .models import Product, Contacts
+from .models import Product, Contacts, Blog
 from django.views.generic import ListView, DetailView, CreateView
 
 
@@ -41,25 +40,48 @@ class ShopAddProduct(CreateView):
         return context
 
 
-def products(request, page_id: int) -> render:
-    """Show 10 products on page"""
-    start_products_count = page_id * 10 - 10
-    end_products_count = page_id * 10
-    products = Product.objects.all().order_by('-id')[start_products_count:end_products_count]
-    content = {"page_id": page_id, "products": products}
-    return render(request, "catalog/products.html", content)
-
-
 class ShopProductCard(DetailView):
     model = Product
     template_name = "catalog/product_card.html"
     context_object_name = "product"
-    # slug_url_kwarg = "post_slug"
-    pk_url_kwarg = "id"
+    slug_url_kwarg = "product_slug"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Product Information"
+        return context
+
+
+class ShopBlog(ListView):
+    model = Blog
+    template_name = "catalog/blog.html"
+    context_object_name = "all_blogs"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Blog"
+        return context
+
+    def get_queryset(self):
+        # return Blog.objects.all().order_by('-id')[:9]
+        return Blog.objects.all().filter(is_published=True)
+
+
+class ShopBlogCard(DetailView):
+    model = Blog
+    template_name = "catalog/blog_card.html"
+    context_object_name = "blog"
+    slug_url_kwarg = "post_slug"
+
+    def get_object(self):
+        obj = super().get_object()
+        obj.view_count += 1
+        obj.save()
+        return obj
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Blog Information"
         return context
 
 
