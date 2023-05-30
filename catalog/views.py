@@ -31,7 +31,7 @@ class ShopContacts(ListView):
 class ShopAddProduct(CreateView):
     model = Product
     template_name = "catalog/add_product.html"
-    fields = ["name", "price", "category",  "description", "image"]
+    fields = ["name", "slug", "price", "category",  "description", "image"]
     success_url = reverse_lazy("add_product")
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -84,6 +84,17 @@ class ShopBlogCard(DetailView):
         context["Title"] = "Blog Information"
         return context
 
+
+class ShopAddBlog(CreateView):
+    model = Blog
+    template_name = "catalog/add_blog.html"
+    fields = ["name", "slug", "description", "is_published", "image"]
+    success_url = reverse_lazy("blog")
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Add Blog"
+        return context
 
 # def index(request) -> render:
 #     """Main page"""

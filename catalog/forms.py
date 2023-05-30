@@ -4,8 +4,16 @@ from catalog.models import Category
 
 class AppProductForm(forms.Form):
     name = forms.CharField(max_length=100)
+    slug = forms.SlugField(null=False, unique=True)
     description = forms.CharField(max_length=100)
     category = forms.ModelChoiceField(queryset=Category.objects.all())
-    price = forms.IntegerField()
-    image = forms.ImageField()
+    price = forms.IntegerField(null=False)
+    image = forms.ImageField(null=False)
 
+
+class AppBlogForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    slug = forms.SlugField(null=False, unique=True)
+    description = forms.CharField(max_length=100)
+    is_published = forms.BooleanField()
+    image = forms.ImageField(null=False)

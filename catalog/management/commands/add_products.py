@@ -73,7 +73,7 @@ class Command(BaseCommand):
                 "image": "images/FLAMSIG.jpg",
                 "category_id": 101,
                 "price": 5000,
-                "slug": "HYLLIS"
+                "slug": "FLAMSIG"
             },
             {
                 "name": "GLADELIG",
