@@ -86,7 +86,7 @@ class ShopBlogCard(DetailView):
 
         if obj.view_count == 35:
             sendmail("n.avramenko87@yandex.ru", self.get_object())
-            return obj
+        return obj
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
