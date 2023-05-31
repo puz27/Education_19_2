@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from .models import Product, Contacts, Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
+from catalog.services import sendmail
 
 
 class ShopHome(ListView):
@@ -83,14 +84,9 @@ class ShopBlogCard(DetailView):
         obj.view_count += 1
         obj.save()
 
-        if obj.view_count == 32:
-            send_mail(f"Django mail about BLOG {self.get_object()}",
-                      f"INFO:{self.get_object()}",
-                      "n.avramenko87@gmail.com",
-                      ["n.avramenko87@gmail.com"],
-                      fail_silently=False
-                      )
-        return obj
+        if obj.view_count == 35:
+            sendmail("n.avramenko87@yandex.ru", self.get_object())
+            return obj
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
