@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from .models import Product, Contacts, Blog
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.core.mail import send_mail
 
 
@@ -48,12 +48,12 @@ class ShopProductCard(DetailView):
     """Information about product"""
     model = Product
     template_name = "catalog/product_card.html"
-    context_object_name = "product"
     slug_url_kwarg = "product_slug"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Product Information"
+        context["product"] = self.get_object()
         return context
 
 
@@ -76,7 +76,6 @@ class ShopBlogCard(DetailView):
     """Information about blog"""
     model = Blog
     template_name = "catalog/blog_card.html"
-    context_object_name = "blog"
     slug_url_kwarg = "post_slug"
 
     def get_object(self):
@@ -84,9 +83,9 @@ class ShopBlogCard(DetailView):
         obj.view_count += 1
         obj.save()
 
-        if obj.view_count == 20:
-            send_mail("Django mail",
-                      "This e-mail was sent with Django.",
+        if obj.view_count == 32:
+            send_mail(f"Django mail about BLOG {self.get_object()}",
+                      f"INFO:{self.get_object()}",
                       "n.avramenko87@gmail.com",
                       ["n.avramenko87@gmail.com"],
                       fail_silently=False
@@ -96,6 +95,7 @@ class ShopBlogCard(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Blog Information"
+        context["blog"] = self.get_object()
         return context
 
 
@@ -110,6 +110,26 @@ class ShopAddBlog(CreateView):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Add Blog"
         return context
+
+
+class ShopUpdateBlog(UpdateView):
+    """Update blog"""
+    model = Blog
+    template_name = "catalog/add_blog.html"
+    fields = ["name", "slug", "description", "is_published", "image"]
+    success_url = reverse_lazy("blog")
+    slug_url_kwarg = "post_slug"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Add Blog"
+        return context
+
+
+
+
+
+
 
 # def index(request) -> render:
 #     """Main page"""
