@@ -14,8 +14,10 @@
                  <li><img src="{% media_path blog.image %}" width="150" alt="{{ blog.name }}"></li>
              </ul>
              <a href="{% url 'blog_card' blog.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a>
-
+                </p>
              <a href="{% url 'update_blog' blog.slug %}" class="w-100 btn btn-lg btn-outline-primary">Update</a>
+                 </p>
+             <a href="{% url 'delete_blog' blog.slug %}" class="w-100 btn btn-lg btn-outline-primary">Delete</a>
             </div>
         </div>
       </div>

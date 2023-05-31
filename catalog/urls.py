@@ -1,5 +1,5 @@
 from django.urls import path
-from catalog.views import ShopHome, ShopContacts, ShopProductCard, ShopAddProduct, ShopBlog, ShopBlogCard, ShopAddBlog, ShopUpdateBlog
+from catalog.views import ShopHome, ShopContacts, ShopProductCard, ShopAddProduct, ShopBlog, ShopBlogCard, ShopAddBlog, ShopUpdateBlog, ShopDeleteBlog
 
 
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path("blog/", ShopBlog.as_view(), name="blog"),
     path("blog_card/<slug:post_slug>", ShopBlogCard.as_view(), name="blog_card"),
     path("add_blog/", ShopAddBlog.as_view(), name="add_blog"),
-    path("update_blog/<slug:post_slug>", ShopUpdateBlog.as_view(), name="update_blog")
+    path("update_blog/<slug:update_slug>", ShopUpdateBlog.as_view(), name="update_blog"),
+    path("delete_blog/<slug:delete_slug>", ShopDeleteBlog.as_view(), name="delete_blog")
 ]

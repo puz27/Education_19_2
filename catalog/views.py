@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from .models import Product, Contacts, Blog
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
 
 
@@ -117,14 +117,28 @@ class ShopUpdateBlog(UpdateView):
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "slug", "description", "is_published", "image"]
+    slug_url_kwarg = "update_slug"
+
     success_url = reverse_lazy("blog")
-    slug_url_kwarg = "post_slug"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["Title"] = "Add Blog"
+        context["Title"] = "Update Blog"
         return context
 
+
+class ShopDeleteBlog(DeleteView):
+    """Delete blog"""
+    model = Blog
+    template_name = "catalog/add_blog.html"
+    fields = ["name", "slug", "description", "is_published", "image"]
+    slug_url_kwarg = "delete_slug"
+    success_url = reverse_lazy("blog")
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Delete Blog"
+        return context
 
 
 
