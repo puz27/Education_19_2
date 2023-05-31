@@ -83,6 +83,14 @@ class ShopBlogCard(DetailView):
         obj = super().get_object()
         obj.view_count += 1
         obj.save()
+
+        if obj.view_count == 100:
+            send_mail("Django mail",
+                      "This e-mail was sent with Django.",
+                      "your_account@gmail.com",
+                      ["your_account@gmail.com"],
+                      fail_silently=False
+                      )
         return obj
 
     def get_context_data(self, *, object_list=None, **kwargs):
