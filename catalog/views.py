@@ -50,6 +50,7 @@ class ShopAddProduct(CreateView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('product_card', args=(self.object.slug,))
 
+
 class ShopProductCard(DetailView):
     """Information about product"""
     model = Product
@@ -114,6 +115,7 @@ class ShopAddBlog(CreateView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('blog_card', args=(self.object.slug,))
+
 
 class ShopUpdateBlog(UpdateView):
     """Update blog"""
