@@ -1,4 +1,6 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.utils.text import slugify
+
 from .models import Product, Contacts, Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
@@ -37,13 +39,16 @@ class ShopAddProduct(CreateView):
     model = Product
     template_name = "catalog/add_product.html"
     fields = ["name", "slug", "price", "category",  "description", "image"]
-    success_url = reverse_lazy("index_page")
+    slug = slugify("name")
+    # success_url = reverse_lazy("index_page")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Add Product"
         return context
 
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('product_card', args=(self.object.slug,))
 
 class ShopProductCard(DetailView):
     """Information about product"""
@@ -107,6 +112,8 @@ class ShopAddBlog(CreateView):
         context["Title"] = "Add Blog"
         return context
 
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('blog_card', args=(self.object.slug,))
 
 class ShopUpdateBlog(UpdateView):
     """Update blog"""
@@ -115,12 +122,13 @@ class ShopUpdateBlog(UpdateView):
     fields = ["name", "slug", "description", "is_published", "image"]
     slug_url_kwarg = "update_slug"
 
-    success_url = reverse_lazy("blog")
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Update Blog"
         return context
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('blog_card', args=(self.object.slug,))
 
 
 class ShopDeleteBlog(DeleteView):
