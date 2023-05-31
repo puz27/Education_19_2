@@ -84,7 +84,7 @@ class ShopBlogCard(DetailView):
         obj.view_count += 1
         obj.save()
 
-        if obj.view_count == 10:
+        if obj.view_count == 20:
             send_mail("Django mail",
                       "This e-mail was sent with Django.",
                       "n.avramenko87@gmail.com",
