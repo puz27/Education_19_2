@@ -1,9 +1,8 @@
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.utils.text import slugify
 
 from .models import Product, Contacts, Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.core.mail import send_mail
 from catalog.services import sendmail
 
 
@@ -39,7 +38,6 @@ class ShopAddProduct(CreateView):
     model = Product
     template_name = "catalog/add_product.html"
     fields = ["name", "slug", "price", "category",  "description", "image"]
-    slug = slugify("name")
     # success_url = reverse_lazy("index_page")
 
     def get_context_data(self, *, object_list=None, **kwargs):
