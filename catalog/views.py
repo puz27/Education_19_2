@@ -37,7 +37,7 @@ class ShopAddProduct(CreateView):
     """Add Product"""
     model = Product
     template_name = "catalog/add_product.html"
-    fields = ["name", "slug", "price", "category",  "description", "image"]
+    fields = ["name", "price", "category",  "description", "image"]
     # success_url = reverse_lazy("index_page")
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -103,7 +103,7 @@ class ShopAddBlog(CreateView):
     """Add blog"""
     model = Blog
     template_name = "catalog/add_blog.html"
-    fields = ["name", "slug", "description", "is_published", "image"]
+    fields = ["name", "description", "is_published", "image"]
     success_url = reverse_lazy("blog")
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -135,7 +135,7 @@ class ShopDeleteBlog(DeleteView):
     """Delete blog"""
     model = Blog
     template_name = "catalog/add_blog.html"
-    fields = ["name", "slug", "description", "is_published", "image"]
+    fields = ["name", "description", "is_published", "image"]
     slug_url_kwarg = "delete_slug"
     success_url = reverse_lazy("blog")
 

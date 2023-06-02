@@ -10,7 +10,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name="product_price")
     time_create = models.DateField(auto_now_add=True, verbose_name="creation_date")
     time_update = models.DateField(auto_now=True, verbose_name="update_date")
-    slug = models.SlugField(max_length=255, verbose_name="product_slug", null=False, unique=True, blank=True)
+    slug = models.SlugField(max_length=255, verbose_name="product_slug", null=False, unique=True)
 
     def __str__(self):
         return self.name
@@ -55,7 +55,7 @@ class Contacts(models.Model):
 
 class Blog(models.Model):
     name = models.CharField(max_length=100, verbose_name="blog_name")
-    slug = models.SlugField(max_length=255, verbose_name="blog_slug", null=False, unique=True, blank=True)
+    slug = models.SlugField(max_length=255, verbose_name="blog_slug", null=False, unique=True)
     description = models.TextField(null=True, blank=True, verbose_name="blog_description")
     image = models.ImageField(upload_to="images")
     time_create = models.DateField(auto_now_add=True, verbose_name="creation_date")
