@@ -1,8 +1,10 @@
-def slugify_rus(words: str) -> str:
-    """
-    Overriding django slugify.
-    """
+from django.template.defaultfilters import slugify as d_slugify
 
+
+def slugify(words: str) -> str:
+    """
+    Slugify for russian language.
+    """
     alphabet = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z',
                 'и': 'i',
                 'й': 'j', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
@@ -10,5 +12,4 @@ def slugify_rus(words: str) -> str:
                 'ю': 'yu',
                 'я': 'ya'}
 
-    new_word = (''.join(alphabet.get(w, w) for w in words.lower()))
-    return new_word.upper()
+    return d_slugify(''.join(alphabet.get(w, w) for w in words.lower()))

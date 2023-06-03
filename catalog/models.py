@@ -1,5 +1,5 @@
 from django.db import models
-from catalog.utils import slugify_rus
+from catalog.utils import slugify
 
 
 class Product(models.Model):
@@ -17,7 +17,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify_rus(self.name)
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -67,7 +67,7 @@ class Blog(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify_rus(self.name)
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     class Meta:
