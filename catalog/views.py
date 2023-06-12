@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.utils.text import slugify
+from .forms import ProductForm
 
 from .models import Product, Contacts, Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -36,8 +37,9 @@ class ShopContacts(ListView):
 class ShopAddProduct(CreateView):
     """Add Product"""
     model = Product
+    form_class = ProductForm
     template_name = "catalog/add_product.html"
-    fields = ["name", "price", "category",  "description", "image"]
+    # fields = ["name", "price", "category",  "description", "image"]
     # success_url = reverse_lazy("index_page")
 
     def get_context_data(self, *, object_list=None, **kwargs):
