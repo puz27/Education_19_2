@@ -74,3 +74,10 @@ class Blog(models.Model):
         verbose_name = "blog"
         verbose_name_plural = "blogs"
         ordering = ["time_create", "name"]
+
+
+class Version(models.Model):
+    product = models.OneToOneField("Product", on_delete=models.CASCADE, null=False, blank=False)
+    number = models.IntegerField()
+    title = models.CharField(max_length=100, verbose_name="version_name")
+    is_active = models.BinaryField(default=True)
