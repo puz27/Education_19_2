@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Contacts, Blog
+from .models import Product, Category, Contacts, Blog, Version
 
 
 @admin.register(Product)
@@ -27,6 +27,11 @@ class ContactsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_editable = ("is_published",)
 
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "number", "is_active")
+    list_editable = ("is_active",)
 
 
 

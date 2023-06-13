@@ -1,8 +1,9 @@
+from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.utils.text import slugify
-from .forms import ProductForm
+from .forms import ProductForm, VersionForm
 
-from .models import Product, Contacts, Blog
+from .models import Product, Contacts, Blog, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.services import sendmail
 
@@ -45,6 +46,22 @@ class ShopAddProduct(CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Add Product"
+        return context
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('product_card', args=(self.object.slug,))
+
+
+class ShopUpdateProduct(UpdateView):
+    """Update product"""
+    model = Product
+    form_class = ProductForm
+    template_name = "catalog/add_product.html"
+    slug_url_kwarg = "update_slug"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Update Product"
         return context
 
     def get_success_url(self, **kwargs):
@@ -146,6 +163,37 @@ class ShopDeleteBlog(DeleteView):
         context["Title"] = "Delete Blog"
         return context
 
+#
+#
+# class ShopAddProduct(CreateView):
+#     """Add Product"""
+#     model = Product
+#     form_class = ProductForm
+#     template_name = "catalog/add_product.html"
+#     # fields = ["name", "price", "category",  "description", "image"]
+#     # success_url = reverse_lazy("index_page")
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["Title"] = "Add Product"
+#         SubjectFormser = inlineformset_factory(Version, Product, form=VersionForm, extra=2)
+#         if self.request.method == "POST":
+#             context["formset"] = SubjectFormser(self.request.POST)
+#         else:
+#             context["formset"] = SubjectFormser()
+#         return context
+#
+#     def form_valid(self, form):
+#         formset = self.get_context_data()["formset"]
+#         self.object = form.save
+#         if formset.is_valid():
+#             formset.instance = self.object
+#             formset.save()
+#
+#         return super().form_valid(form)
+#
+#     def get_success_url(self, **kwargs):
+#         return reverse_lazy('product_card', args=(self.object.slug,))
 
 
 

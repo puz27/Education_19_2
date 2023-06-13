@@ -1,5 +1,7 @@
 from django import forms
-from catalog.models import Product, Category
+from django.forms import formset_factory
+
+from catalog.models import Product, Version
 from django.core.exceptions import ValidationError
 
 
@@ -29,6 +31,26 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ["name", "price", "category", "description", "image"]
 
+
+class VersionForm(forms.ModelForm):
+
+    class Meta:
+        model = Version
+        fields = "__all__"
+
+        # AuthorFormSet = formset_factory(
+        #     AuthorForm,
+        #     extra=2,
+        #     max_num=2,
+        #     min_num=1
+        # )
+
+    # widgets = {
+    #     "name": forms.TextInput(attrs={'class': 'form-input'}),
+    #     "price": forms.TextInput(attrs={'class': 'form-input'}),
+    #     "description": forms.Textarea(attrs={'cols': 100, 'rows': 5}),
+    #
+    # }
 
 
 # class AppProductForm(forms.Form):

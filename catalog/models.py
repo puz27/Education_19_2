@@ -77,7 +77,15 @@ class Blog(models.Model):
 
 
 class Version(models.Model):
-    product = models.OneToOneField("Product", on_delete=models.CASCADE, null=False, blank=False)
+    # product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    product = models.CharField(max_length=100, verbose_name="title_name")
     number = models.IntegerField()
-    title = models.CharField(max_length=100, verbose_name="version_name")
-    is_active = models.BinaryField(default=True)
+    title = models.CharField(max_length=100, verbose_name="title_name")
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "version"
+        verbose_name_plural = "versions"
+
+    def __str__(self):
+        return self.title
