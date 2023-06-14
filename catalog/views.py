@@ -102,7 +102,10 @@ class ShopProductCard(DetailView):
         context["Title"] = "Product Information"
         context["product"] = self.get_object()
 
-        Pro = Product.objects.get(id=13)
+        # if self.request.method == "POST":
+        #     form = ProductForm(request.POST, request.FILES)
+
+        Pro = Product.objects.get(id=pk)
         temp = Pro.product_info.filter(is_active=True)
         print(temp)
         print(self.get_object())
