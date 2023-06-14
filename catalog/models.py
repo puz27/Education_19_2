@@ -62,6 +62,7 @@ class Blog(models.Model):
     is_published = models.BooleanField(default=True)
     view_count = models.IntegerField(verbose_name="counts_views", default=0)
 
+
     def __str__(self):
         return self.name
 
@@ -77,8 +78,7 @@ class Blog(models.Model):
 
 
 class Version(models.Model):
-    # product = models.ForeignKey("Product", on_delete=models.CASCADE)
-    product = models.CharField(max_length=100, verbose_name="title_name")
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="product_info")
     number = models.IntegerField()
     title = models.CharField(max_length=100, verbose_name="title_name")
     is_active = models.BooleanField(default=True)

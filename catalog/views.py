@@ -59,10 +59,29 @@ class ShopUpdateProduct(UpdateView):
     template_name = "catalog/add_product.html"
     slug_url_kwarg = "update_slug"
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["Title"] = "Update Product"
+    #     return context
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Update Product"
+        SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, can_delete=False, max_num=3)
+        if self.request.method == "POST":
+            context["formset"] = SubjectFormset(self.request.POST, instance=self.object)
+        else:
+            context["formset"] = SubjectFormset(instance=self.object)
         return context
+
+    def form_valid(self, form):
+        formset = self.get_context_data()["formset"]
+        self.object = form.save
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+
+        return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('product_card', args=(self.object.slug,))
@@ -74,10 +93,20 @@ class ShopProductCard(DetailView):
     template_name = "catalog/product_card.html"
     slug_url_kwarg = "product_slug"
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_object(self):
+        obj = super().get_object()
+        return obj
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Product Information"
         context["product"] = self.get_object()
+
+        Pro = Product.objects.get(id=13)
+        temp = Pro.product_info.filter(is_active=True)
+        print(temp)
+        print(self.get_object())
+        context["temp"] = temp
         return context
 
 

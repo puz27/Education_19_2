@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import formset_factory
+from django.forms import formset_factory, inlineformset_factory
 
 from catalog.models import Product, Version
 from django.core.exceptions import ValidationError
@@ -36,7 +36,10 @@ class VersionForm(forms.ModelForm):
 
     class Meta:
         model = Version
-        fields = "__all__"
+        fields = ["title", "number"]
+
+    # VersionFormSet = inlineformset_factory(Product, Version, can_delete=False, max_num=3)
+
 
         # AuthorFormSet = formset_factory(
         #     AuthorForm,
