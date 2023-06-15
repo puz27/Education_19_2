@@ -36,7 +36,7 @@ class VersionForm(forms.ModelForm):
 
     class Meta:
         model = Version
-        fields = ["title", "number"]
+        fields = "__all__"
 
     # VersionFormSet = inlineformset_factory(Product, Version, can_delete=False, max_num=3)
 

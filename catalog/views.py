@@ -1,5 +1,5 @@
 from django.forms import inlineformset_factory
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
 from .forms import ProductForm, VersionForm
 
@@ -66,17 +66,23 @@ class ShopUpdateProduct(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["Title"] = "Update Product"
-        SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, can_delete=False, max_num=3)
+
+        SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+
         if self.request.method == "POST":
-            context["formset"] = SubjectFormset(self.request.POST, instance=self.object)
+            formset = SubjectFormset(self.request.POST, instance=self.object)
         else:
-            context["formset"] = SubjectFormset(instance=self.object)
+            formset = SubjectFormset(instance=self.object)
+
+        context["Title"] = "Update Product"
+        context["formset"] = formset
         return context
 
     def form_valid(self, form):
-        formset = self.get_context_data()["formset"]
-        self.object = form.save
+
+        context = self.get_context_data()
+        formset = context['formset']
+
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
@@ -84,7 +90,7 @@ class ShopUpdateProduct(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('product_card', args=(self.object.slug,))
+        return reverse_lazy('update_product', args=(self.object.slug,))
 
 
 class ShopProductCard(DetailView):
@@ -105,11 +111,11 @@ class ShopProductCard(DetailView):
         # if self.request.method == "POST":
         #     form = ProductForm(request.POST, request.FILES)
 
-        Pro = Product.objects.get(id=pk)
-        temp = Pro.product_info.filter(is_active=True)
-        print(temp)
-        print(self.get_object())
-        context["temp"] = temp
+        # Pro = Product.objects.get(id=13)
+        # temp = Pro.product_info.filter(is_active=True)
+        # print(temp)
+        # print(self.get_object())
+        # context["temp"] = temp
         return context
 
 
