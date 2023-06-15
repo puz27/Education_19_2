@@ -25,6 +25,7 @@ class Product(models.Model):
         verbose_name_plural = "products"
         ordering = ["time_create", "name"]
 
+    # get last version of product for product card
     @property
     def active_version(self):
         return self.version_set.last()
@@ -33,7 +34,6 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="category_name")
     description = models.TextField(null=True, blank=True, verbose_name="category_description")
-    # time_create = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -91,4 +91,4 @@ class Version(models.Model):
         verbose_name_plural = "versions"
 
     def __str__(self):
-        return f"{self.title} | {self.number}"
+        return f"{self.title} | Version number: {self.number}"

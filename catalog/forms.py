@@ -1,6 +1,4 @@
 from django import forms
-from django.forms import formset_factory, inlineformset_factory
-
 from catalog.models import Product, Version
 from django.core.exceptions import ValidationError
 
@@ -21,6 +19,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["category"].empty_label = "Select Category"
 
+    # validation for name
     def clean_name(self):
         name = str(self.cleaned_data["name"])
         for word in self.forbidden_words:
@@ -28,6 +27,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
                 raise ValidationError("You can not create product with this name!")
         return name
 
+    # validation for description
     def clean_description(self):
         name = str(self.cleaned_data["description"])
         for word in self.forbidden_words:
@@ -45,26 +45,6 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version
         fields = "__all__"
-
-
-
-
-    # VersionFormSet = inlineformset_factory(Product, Version, can_delete=False, max_num=3)
-
-
-        # AuthorFormSet = formset_factory(
-        #     AuthorForm,
-        #     extra=2,
-        #     max_num=2,
-        #     min_num=1
-        # )
-
-    # widgets = {
-    #     "name": forms.TextInput(attrs={'class': 'form-input'}),
-    #     "price": forms.TextInput(attrs={'class': 'form-input'}),
-    #     "description": forms.Textarea(attrs={'cols': 100, 'rows': 5}),
-    #
-    # }
 
 
 # class AppProductForm(forms.Form):

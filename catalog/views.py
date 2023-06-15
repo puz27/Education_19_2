@@ -1,5 +1,5 @@
 from django.forms import inlineformset_factory
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.utils.text import slugify
 from .forms import ProductForm, VersionForm
 
@@ -18,9 +18,6 @@ class ShopHome(ListView):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Main Page"
         return context
-
-    # def get_queryset(self):
-    #     return Product.objects.all().order_by('-id')[:6]
 
     def get_queryset(self):
         return Product.objects.all().order_by('-id')[:6]
@@ -43,6 +40,7 @@ class ShopAddProduct(CreateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/add_product.html"
+
     # fields = ["name", "price", "category",  "description", "image"]
     # success_url = reverse_lazy("index_page")
 
@@ -50,13 +48,12 @@ class ShopAddProduct(CreateView):
     #     context = super().get_context_data(**kwargs)
     #     context["Title"] = "Add Product"
     #     return context
-    #
+
     def get_success_url(self, **kwargs):
         return reverse_lazy('product_card', args=(self.object.slug,))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
 
         if self.request.method == "POST":
@@ -66,13 +63,12 @@ class ShopAddProduct(CreateView):
 
         context["Title"] = "Update Product"
         context["formset"] = formset
+
         return context
 
     def form_valid(self, form):
-
         context = self.get_context_data()
         formset = context['formset']
-
         self.object = form.save()
 
         if formset.is_valid():
@@ -98,7 +94,6 @@ class ShopUpdateProduct(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
 
         if self.request.method == "POST":
@@ -111,7 +106,6 @@ class ShopUpdateProduct(UpdateView):
         return context
 
     def form_valid(self, form):
-
         context = self.get_context_data()
         formset = context['formset']
 
@@ -232,8 +226,7 @@ class ShopDeleteBlog(DeleteView):
         context["Title"] = "Delete Blog"
         return context
 
-#
-#
+
 # class ShopAddProduct(CreateView):
 #     """Add Product"""
 #     model = Product
