@@ -25,6 +25,10 @@ class Product(models.Model):
         verbose_name_plural = "products"
         ordering = ["time_create", "name"]
 
+    @property
+    def active_version(self):
+        return self.version_set.last()
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="category_name")
@@ -87,4 +91,4 @@ class Version(models.Model):
         verbose_name_plural = "versions"
 
     def __str__(self):
-        return self.title
+        return f"{self.title} | {self.number}"

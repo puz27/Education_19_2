@@ -19,6 +19,9 @@ class ShopHome(ListView):
         context["Title"] = "Main Page"
         return context
 
+    # def get_queryset(self):
+    #     return Product.objects.all().order_by('-id')[:6]
+
     def get_queryset(self):
         return Product.objects.all().order_by('-id')[:6]
 
@@ -43,13 +46,47 @@ class ShopAddProduct(CreateView):
     # fields = ["name", "price", "category",  "description", "image"]
     # success_url = reverse_lazy("index_page")
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Add Product"
-        return context
-
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["Title"] = "Add Product"
+    #     return context
+    #
     def get_success_url(self, **kwargs):
         return reverse_lazy('product_card', args=(self.object.slug,))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+
+        if self.request.method == "POST":
+            formset = SubjectFormset(self.request.POST)
+        else:
+            formset = SubjectFormset()
+
+        context["Title"] = "Update Product"
+        context["formset"] = formset
+        return context
+
+    def form_valid(self, form):
+
+        context = self.get_context_data()
+        formset = context['formset']
+
+        self.object = form.save()
+
+        if formset.is_valid():
+            # before add new version make other version - inactive
+            ver = Version.objects.all()
+            for i in ver:
+                i.is_active = False
+                i.save()
+
+            formset.instance = self.object
+            formset.save()
+
+        return super().form_valid(form)
+
 
 
 class ShopUpdateProduct(UpdateView):
@@ -58,11 +95,6 @@ class ShopUpdateProduct(UpdateView):
     form_class = ProductForm
     template_name = "catalog/add_product.html"
     slug_url_kwarg = "update_slug"
-
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["Title"] = "Update Product"
-    #     return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,6 +116,12 @@ class ShopUpdateProduct(UpdateView):
         formset = context['formset']
 
         if formset.is_valid():
+            # before add new version make other version - inactive
+            ver = Version.objects.all()
+            for i in ver:
+                i.is_active = False
+                i.save()
+
             formset.instance = self.object
             formset.save()
 
@@ -107,15 +145,8 @@ class ShopProductCard(DetailView):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Product Information"
         context["product"] = self.get_object()
-
-        # if self.request.method == "POST":
-        #     form = ProductForm(request.POST, request.FILES)
-
-        # Pro = Product.objects.get(id=13)
-        # temp = Pro.product_info.filter(is_active=True)
-        # print(temp)
-        # print(self.get_object())
-        # context["temp"] = temp
+        product_version = self.get_object()
+        context["product_version"] = product_version.active_version
         return context
 
 

@@ -5,7 +5,15 @@ from catalog.models import Product, Version
 from django.core.exceptions import ValidationError
 
 
-class ProductForm(forms.ModelForm):
+class StyleFormMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name != "is_active":
+                field.widget.attrs["class"] = "form-control"
+
+
+class ProductForm(StyleFormMixin, forms.ModelForm):
 
     forbidden_words = ("казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар")
 
@@ -32,11 +40,14 @@ class ProductForm(forms.ModelForm):
         fields = ["name", "price", "category", "description", "image"]
 
 
-class VersionForm(forms.ModelForm):
+class VersionForm(StyleFormMixin, forms.ModelForm):
 
     class Meta:
         model = Version
         fields = "__all__"
+
+
+
 
     # VersionFormSet = inlineformset_factory(Product, Version, can_delete=False, max_num=3)
 
