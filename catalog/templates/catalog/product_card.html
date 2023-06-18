@@ -5,6 +5,7 @@
 NAME: {{ product.name }}<p>
 PRICE: {{ product.price }}<p>
 DESCRIPTION: {{ product.description }}<p>
+OWNER: {{ product.owner|default:"No owner." }}<p>
 ADDITIONAL INFORMATION:
     {% if  product_version %}
         {{ product_version }}<p>

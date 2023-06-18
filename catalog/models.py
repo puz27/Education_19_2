@@ -1,5 +1,6 @@
 from django.db import models
 from catalog.utils import slugify
+from config import settings
 
 
 class Product(models.Model):
@@ -11,6 +12,7 @@ class Product(models.Model):
     time_create = models.DateField(auto_now_add=True, verbose_name="creation_date")
     time_update = models.DateField(auto_now=True, verbose_name="update_date")
     slug = models.SlugField(max_length=255, verbose_name="product_slug", null=False, unique=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name

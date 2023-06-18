@@ -1,6 +1,4 @@
 import random
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.views.generic import CreateView, UpdateView
@@ -9,27 +7,24 @@ from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 from catalog.services import sendmail
 from django.shortcuts import redirect
-from users.forms import UserForgotPasswordForm, UserSetNewPasswordForm
+from catalog.views import TitleMixin
 
 
-class LoginView(BaseLoginView):
+class LoginView(TitleMixin, BaseLoginView):
     template_name = "users/login.html"
+    title = "Login"
 
 
 class LogoutView(BaseLogoutView):
     template_name = "users/login.html"
 
 
-class RegisterView(CreateView):
+class RegisterView(TitleMixin, CreateView):
     model = User
     form_class = UserRegisterForm
     template_name = "users/registration.html"
     success_url = reverse_lazy('users:login')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Registration New User"
-        return context
+    title = "Registration New User"
 
     def form_valid(self, form):
         new_user = form.save()
@@ -52,32 +47,3 @@ def generate_password(request):
     sendmail(request.user.email, "Change password on site", new_password)
     request.user.set_password(new_password)
     return redirect(reverse("users:profile"))
-
-
-# class UserResetView(SuccessMessageMixin, PasswordResetView):
-#     form_class = UserResetForm
-#     template_name = "users/reset_password.html"
-#     success_url = reverse_lazy('')
-#     success_message = 'Письмо с инструкцией по восстановлению пароля отправлена на ваш email'
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["Title"] = "Reset Password"
-#         return context
-
-#
-# class UserResetView(PasswordResetView):
-#     pass
-#
-#
-# class UserResetSentView(PasswordResetDoneView):
-#     pass
-#
-#
-# class UserResetConfirmView(PasswordResetConfirmView):
-#     pass
-#
-#
-# class UserResetCompleteView(PasswordResetCompleteView):
-#     pass
-

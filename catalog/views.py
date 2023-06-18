@@ -1,8 +1,6 @@
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
-from django.utils.text import slugify
 from .forms import ProductForm, VersionForm
-
 from .models import Product, Contacts, Blog, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.services import sendmail
@@ -63,6 +61,7 @@ class ShopAddProduct(CreateView):
         context = self.get_context_data()
         formset = context['formset']
         self.object = form.save()
+        self.object.owner = self.request.user
 
         if formset.is_valid():
             # before add new version make other version - inactive
@@ -199,4 +198,3 @@ class ShopDeleteBlog(TitleMixin, DeleteView):
     slug_url_kwarg = "delete_slug"
     success_url = reverse_lazy("catalog:blog")
     title = "Delete Blog"
-
