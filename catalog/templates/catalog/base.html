@@ -173,7 +173,9 @@
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'catalog:index_page' %}">Main Page</a>
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'catalog:add_product' %}">Add Product</a>
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'catalog:blog' %}">Blog</a>
+        {% if user.is_authenticated %}
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'catalog:add_blog' %}">Add Blog</a>
+        {% endif %}
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'catalog:contacts_page' %}">Contacts</a>
         {% if user.is_authenticated %}
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'users:logout' %}">Logout</a>

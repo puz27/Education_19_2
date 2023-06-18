@@ -21,7 +21,9 @@
               <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
             </ul>
             <a href="{% url 'catalog:product_card' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a></p>
+
             <a href="{% url 'catalog:update_product' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Update</a>
+
             </div>
         </div>
       </div>
