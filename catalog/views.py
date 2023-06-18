@@ -8,31 +8,35 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from catalog.services import sendmail
 
 
-class ShopHome(ListView):
+class TitleMixin(object):
+    title = None
+
+    def get_title(self):
+        return self.title
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Title'] = self.get_title()
+        return context
+
+
+class ShopHome(TitleMixin, ListView):
     """ Main page. Show last 6 products."""
     model = Product
     template_name = "catalog/index.html"
     context_object_name = "items"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Main Page"
-        return context
+    title = 'Main Page'
 
     def get_queryset(self):
         return Product.objects.all().order_by('-id')[:6]
 
 
-class ShopContacts(ListView):
+class ShopContacts(TitleMixin, ListView):
     """Contacts"""
     model = Contacts
     template_name = "catalog/contacts.html"
     context_object_name = "info_contacts"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Our contacts"
-        return context
+    title = 'Our contacts'
 
 
 class ShopAddProduct(CreateView):
@@ -130,16 +134,12 @@ class ShopProductCard(DetailView):
         return context
 
 
-class ShopBlog(ListView):
+class ShopBlog(TitleMixin, ListView):
     """Show all Blog that have True published status"""
     model = Blog
     template_name = "catalog/blog.html"
     context_object_name = "all_blogs"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Blog"
-        return context
+    title = "Blog"
 
     def get_queryset(self):
         return Blog.objects.all().filter(is_published=True)
@@ -157,7 +157,7 @@ class ShopBlogCard(DetailView):
         obj.save()
 
         if obj.view_count == 35:
-            sendmail("n.avramenko87@yandex.ru", self.get_object())
+            sendmail("n.avramenko87@yandex.ru", "Information about Blog", self.get_object())
         return obj
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -167,48 +167,36 @@ class ShopBlogCard(DetailView):
         return context
 
 
-class ShopAddBlog(CreateView):
+class ShopAddBlog(TitleMixin, CreateView):
     """Add blog"""
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "description", "is_published", "image"]
     success_url = reverse_lazy("catalog:blog")
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Add Blog"
-        return context
+    title = "Add Blog"
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('catalog:blog_card', args=(self.object.slug,))
 
 
-class ShopUpdateBlog(UpdateView):
+class ShopUpdateBlog(TitleMixin, UpdateView):
     """Update blog"""
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "slug", "description", "is_published", "image"]
     slug_url_kwarg = "update_slug"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Update Blog"
-        return context
+    title = "Update Blog"
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('catalog:blog_card', args=(self.object.slug,))
 
 
-class ShopDeleteBlog(DeleteView):
+class ShopDeleteBlog(TitleMixin, DeleteView):
     """Delete blog"""
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "description", "is_published", "image"]
     slug_url_kwarg = "delete_slug"
     success_url = reverse_lazy("catalog:blog")
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["Title"] = "Delete Blog"
-        return context
+    title = "Delete Blog"
 
