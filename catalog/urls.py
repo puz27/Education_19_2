@@ -2,6 +2,7 @@ from django.urls import path
 from catalog.views import ShopHome, ShopContacts, ShopProductCard, ShopAddProduct, ShopBlog, ShopBlogCard, ShopAddBlog,\
     ShopUpdateBlog, ShopDeleteBlog, ShopUpdateProduct
 
+app_name = "catalog"
 
 urlpatterns = [
     path("", ShopHome.as_view(), name="index_page"),

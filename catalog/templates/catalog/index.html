@@ -4,7 +4,7 @@
 
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
       <h1 class="display-4 fw-normal">Pricing</h1>
-      <p class="fs-5 text-body-secondary">Here you cam see last 6 product on site.</p>
+      <p class="fs-5 text-body-secondary">Here you can see last 6 product on site.</p>
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
@@ -18,13 +18,10 @@
              <ul class="list-unstyled mt-3 mb-4">
               <li>PRICE: {{item.price}}</li>
               <li>DESCRIPTION: {{item.description | slice:100 }}</li><p>
-<!--          <li><img src="/media/{{ item.image }}" width="100" alt="{{ item.name }}"></li>-->
-<!--          <li><img src="{{ item.image | media_path_template }}" width="100" alt="{{ item.name }}"></li>-->
               <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
             </ul>
-<!--            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Show</button>-->
-            <a href="{% url 'product_card' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a></p>
-            <a href="{% url 'update_product' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Update</a>
+            <a href="{% url 'catalog:product_card' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a></p>
+            <a href="{% url 'catalog:update_product' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Update</a>
             </div>
         </div>
       </div>
