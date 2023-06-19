@@ -22,11 +22,3 @@ class UserProfileForm(StyleFormMixin, UserChangeForm):
 
         self.fields['password'].widget = forms.HiddenInput()
 
-
-class UserForgotPasswordForm(PasswordResetForm):
-    pass
-
-
-class UserSetNewPasswordForm(SetPasswordForm):
-    pass
-

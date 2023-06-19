@@ -42,9 +42,9 @@ class RegisterView(TitleMixin, CreateView):
         current_site = config.settings.SITE_NAME
         sendmail(
             user.email,
-            "Registration!",
-            f"Подтвердите свой электронный адрес, Пожалуйста,перейдите по следующей ссылке, "
-            f"чтобы подтвердить свой адрес электронной почты: http://{current_site}{activation_url}")
+            "Registration on Site!",
+            f"Accept your email address. Go on: http://{current_site}{activation_url}"
+        )
         return redirect('users:email_confirmation_sent')
 
 
@@ -70,13 +70,9 @@ class UserConfirmEmailView(View):
             return redirect('users:email_confirmation_failed')
 
 
-class UserConfirmedView(TemplateView):
+class UserConfirmedView(TitleMixin, TemplateView):
     template_name = 'users/registration/registration_confirmed.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Ваш электронный адрес активирован'
-        return context
+    title = "Your email is activated."
 
 
 class ResetRegisterView(PasswordResetDoneView):
