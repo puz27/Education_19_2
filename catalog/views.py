@@ -7,6 +7,7 @@ from catalog.services import sendmail
 
 
 class TitleMixin(object):
+    """Mixin for show title on pages."""
     title = None
 
     def get_title(self):
@@ -19,7 +20,7 @@ class TitleMixin(object):
 
 
 class ShopHome(TitleMixin, ListView):
-    """ Main page. Show last 6 products."""
+    """Main page. Show last 6 products."""
     model = Product
     template_name = "catalog/index.html"
     context_object_name = "items"
@@ -30,7 +31,7 @@ class ShopHome(TitleMixin, ListView):
 
 
 class ShopContacts(TitleMixin, ListView):
-    """Contacts"""
+    """Contacts."""
     model = Contacts
     template_name = "catalog/contacts.html"
     context_object_name = "info_contacts"
@@ -38,7 +39,7 @@ class ShopContacts(TitleMixin, ListView):
 
 
 class ShopAddProduct(CreateView):
-    """Add Product"""
+    """Add Product."""
     model = Product
     form_class = ProductForm
     template_name = "catalog/add_product.html"
@@ -77,7 +78,7 @@ class ShopAddProduct(CreateView):
 
 
 class ShopUpdateProduct(UpdateView):
-    """Update product"""
+    """Update product."""
     model = Product
     form_class = ProductForm
     template_name = "catalog/add_product.html"
@@ -115,7 +116,7 @@ class ShopUpdateProduct(UpdateView):
 
 
 class ShopProductCard(DetailView):
-    """Information about product"""
+    """Information about product."""
     model = Product
     template_name = "catalog/product_card.html"
     slug_url_kwarg = "product_slug"
@@ -134,7 +135,7 @@ class ShopProductCard(DetailView):
 
 
 class ShopBlog(TitleMixin, ListView):
-    """Show all Blog that have True published status"""
+    """Show all Blog that have True published status."""
     model = Blog
     template_name = "catalog/blog.html"
     context_object_name = "all_blogs"
@@ -145,7 +146,7 @@ class ShopBlog(TitleMixin, ListView):
 
 
 class ShopBlogCard(DetailView):
-    """Information about blog"""
+    """Information about blog."""
     model = Blog
     template_name = "catalog/blog_card.html"
     slug_url_kwarg = "post_slug"
@@ -167,7 +168,7 @@ class ShopBlogCard(DetailView):
 
 
 class ShopAddBlog(TitleMixin, CreateView):
-    """Add blog"""
+    """Add blog."""
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "description", "is_published", "image"]
@@ -179,7 +180,7 @@ class ShopAddBlog(TitleMixin, CreateView):
 
 
 class ShopUpdateBlog(TitleMixin, UpdateView):
-    """Update blog"""
+    """Update blog."""
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "slug", "description", "is_published", "image"]
@@ -191,7 +192,7 @@ class ShopUpdateBlog(TitleMixin, UpdateView):
 
 
 class ShopDeleteBlog(TitleMixin, DeleteView):
-    """Delete blog"""
+    """Delete blog."""
     model = Blog
     template_name = "catalog/add_blog.html"
     fields = ["name", "description", "is_published", "image"]

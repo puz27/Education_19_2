@@ -18,15 +18,18 @@ from django.contrib.auth import login
 
 
 class LoginView(TitleMixin, BaseLoginView):
+    """ Login to site."""
     template_name = "users/login.html"
     title = "Login"
 
 
 class LogoutView(BaseLogoutView):
+    """Logout from site."""
     template_name = "users/login.html"
 
 
 class RegisterView(TitleMixin, CreateView):
+    """ Register new user and send verification mail on user email."""
     form_class = UserRegisterForm
     template_name = "users/registration/registration_form.html"
     success_url = reverse_lazy('users:registration_reset')
@@ -49,11 +52,12 @@ class RegisterView(TitleMixin, CreateView):
 
 
 class UserConfirmationSentView(PasswordResetDoneView):
+    """Success first part of registration."""
     template_name = "users/registration/registration_sent_done.html"
 
 
 class UserConfirmEmailView(View):
-
+    """User confirms his registration."""
     def get(self, request, uidb64, token):
         try:
             uid = urlsafe_base64_decode(uidb64)
@@ -71,15 +75,13 @@ class UserConfirmEmailView(View):
 
 
 class UserConfirmedView(TitleMixin, TemplateView):
+    """User registration done and show information about it."""
     template_name = 'users/registration/registration_confirmed.html'
     title = "Your email is activated."
 
 
-class ResetRegisterView(PasswordResetDoneView):
-    template_name = "users/registration/registration_sent_done.html"
-
-
 class UserUpdateView(UpdateView):
+    """User profile."""
     model = User
     success_url = reverse_lazy("users:profile")
     form_class = UserProfileForm
@@ -90,26 +92,32 @@ class UserUpdateView(UpdateView):
 
 
 def generate_password(request):
+    """Generate new password for user."""
     new_password = "".join([str(random.randint(0, 9)) for _ in range(12)])
-    sendmail(request.user.email, "Change password on site", new_password)
+    sendmail(request.user.email, "Changed password on site", new_password)
     request.user.set_password(new_password)
-    return redirect(reverse("users:profile"))
+    request.user.save()
+    return redirect(reverse("catalog:index_page"))
 
 
 class UserResetView(PasswordResetView):
+    """First step for reset user password."""
     template_name = "users/registration/password_reset_form.html"
     email_template_name = "users/registration/password_reset_email.html"
     success_url = reverse_lazy('users:password_reset_done')
 
 
 class UserResetDoneView(PasswordResetDoneView):
+    """Second step for reset user password."""
     template_name = "users/registration/password_reset_done.html"
 
 
 class UserResetConfirmView(PasswordResetConfirmView):
+    """User confirm reset and changed password."""
     template_name = "users/registration/password_reset_confirm.html"
     success_url = reverse_lazy("users:password_reset_complete")
 
 
 class UserResetCompleteView(PasswordResetCompleteView):
+    """Reset done information."""
     template_name = "users/registration/password_reset_complete.html"
