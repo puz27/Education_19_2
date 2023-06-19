@@ -37,10 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'catalog.apps.CatalogConfig',
     'users.apps.UsersConfig',
 
+
 ]
+
+SITE_ID = 1
+SITE_NAME = "127.0.0.1:8000"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
