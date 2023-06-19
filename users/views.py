@@ -25,6 +25,7 @@ class RegisterView(TitleMixin, CreateView):
     template_name = "users/registration.html"
     success_url = reverse_lazy('users:login')
     title = "Registration New User"
+    success_message = 'Send activation message on your email.'
 
     def form_valid(self, form):
         new_user = form.save()
