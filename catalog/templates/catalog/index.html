@@ -17,13 +17,11 @@
             <div class="card-body">
              <ul class="list-unstyled mt-3 mb-4">
               <li>PRICE: {{item.price}}</li>
-              <li>DESCRIPTION: {{item.description | slice:100 }}</li><p>
+              <li>DESCRIPTION: {{item.description | slice:100 }}</li>
               <li><img src="{% media_path item.image %}" width="100" alt="{{ item.name }}"></li>
             </ul>
-            <a href="{% url 'catalog:product_card' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a></p>
-
-            <a href="{% url 'catalog:update_product' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Update</a>
-
+            <p><a href="{% url 'catalog:product_card' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Show</a></p>
+            <p><a href="{% url 'catalog:update_product' item.slug %}" class="w-100 btn btn-lg btn-outline-primary">Update</a></p>
             </div>
         </div>
       </div>

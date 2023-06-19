@@ -1,11 +1,13 @@
 {% extends 'catalog/base.html' %}
 {% load catalog_tags %}
 
-{% block content %}<p>
+{% block content %}
+
 <div class="card-header py-3">
-    <img src="{% media_path blog.image %}" width="300">
+<img src="{% media_path blog.image %}" width="300">
 </div>
 
-NAME: {{ blog.name }}<p>
-DESCRIPTION: {{ blog.description }}<p>
+<p>NAME: {{ blog.name }}</p>
+<p>DESCRIPTION: {{ blog.description }}</p>
+
 {% endblock %}

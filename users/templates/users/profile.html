@@ -1,5 +1,4 @@
 {% extends 'catalog/base.html' %}
-
 {% block content %}
 
 <div class="row">
@@ -12,14 +11,12 @@
                 <form method="post" enctype="multipart/form-data">
                     {%  csrf_token %}
                     {{ form.as_p}}
-                <button type="submit" class="btn btn-success">Save</button></p>
+                <p><button type="submit" class="btn btn-success">Save</button></p>
                 <a href="{% url 'users:generate_password'  %}" class="btn btn-success">Generate New Password</a>
-
                 </form>
-
-
-</div>
+            </div>
         </div>
+    </div>
     </div>
 </div>
 

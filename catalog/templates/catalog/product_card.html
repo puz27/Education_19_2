@@ -1,17 +1,17 @@
 {% extends 'catalog/base.html' %}
 {% load catalog_tags %}
 
-{% block content %}<p>
-NAME: {{ product.name }}<p>
-PRICE: {{ product.price }}<p>
-DESCRIPTION: {{ product.description }}<p>
-OWNER: {{ product.owner|default:"No owner." }}<p>
+{% block content %}
+<p>NAME: {{ product.name }}</p>
+<p>PRICE: {{ product.price }}</p>
+<p>DESCRIPTION: {{ product.description }}</p>
+<p>OWNER: {{ product.owner|default:"No owner." }}</p>
 ADDITIONAL INFORMATION:
-    {% if  product_version %}
-        {{ product_version }}<p>
-    {% else %}
-        No version for product.
-    {% endif %}<p>
-<img src="{% media_path product.image %}" width="300">
+{% if product_version %}
+    {{ product_version }}
+{% else %}
+    No version for product.
+{% endif %}
+<p><img src="{% media_path product.image %}" width="300"></p>
 
 {% endblock %}

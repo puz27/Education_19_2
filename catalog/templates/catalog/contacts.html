@@ -1,8 +1,8 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
 
-<h4>Our contacts. <p>
-    Here you can see contacts that were add in admin menu.</h4>
+<p>Our contacts.</p>
+<p>Here you can see contacts that were add in admin menu.</p>
 {% for contact in info_contacts %}
 <li>{{ contact.name }}  {{ contact.surname }}  {{ contact.email }}</li>
 {% endfor %}
