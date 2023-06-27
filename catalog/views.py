@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from .forms import ProductForm, VersionForm
@@ -27,7 +28,7 @@ class ShopHome(TitleMixin, ListView):
     title = 'Main Page'
 
     def get_queryset(self):
-        return Product.objects.all().order_by('-id')[:6]
+        return Product.objects.filter(is_published=True).order_by('-id')[:6]
 
 
 class ShopContacts(TitleMixin, ListView):
@@ -77,12 +78,13 @@ class ShopAddProduct(CreateView):
         return super().form_valid(form)
 
 
-class ShopUpdateProduct(UpdateView):
+class ShopUpdateProduct(PermissionRequiredMixin, UpdateView):
     """Update product."""
     model = Product
     form_class = ProductForm
     template_name = "catalog/add_product.html"
     slug_url_kwarg = "update_slug"
+    permission_required = "catalog.view_product"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

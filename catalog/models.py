@@ -4,6 +4,7 @@ from config import settings
 
 
 class Product(models.Model):
+
     name = models.CharField(max_length=100, verbose_name="product_name")
     description = models.TextField(null=True, blank=True, verbose_name="product_description")
     image = models.ImageField(upload_to="images")
@@ -13,6 +14,7 @@ class Product(models.Model):
     time_update = models.DateField(auto_now=True, verbose_name="update_date")
     slug = models.SlugField(max_length=255, verbose_name="product_slug", null=False, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
