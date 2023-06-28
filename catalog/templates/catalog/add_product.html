@@ -3,7 +3,26 @@
 
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+
+    {% if perms.catalog.change_product %}
+    {{ form.name }}
+    {% else %}
+    {{ form.name.as_hidden }}
+    {% endif%}
+    <p> {% if perms.catalog.change_product %}
+    {{ form.price }}
+    {% else %}
+    {{ form.price.as_hidden }}
+    {% endif%} </p>
+    <p> {{ form.category }} </p>
+    <p> {{ form.description }} </p>
+    {% if perms.catalog.change_product %}
+    {{ form.image }}
+    {% else %}
+    {{ form.image.as_hidden }}
+    {% endif%}
+    <p> {{ form.is_published }} </p>
+
 <h3>Product Version</h3>
    {{ formset.management_form }}
    {%  for form in  formset.forms %}
@@ -13,3 +32,4 @@
 </form>
 
 {% endblock %}
+

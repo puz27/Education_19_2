@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.forms import inlineformset_factory
+from django.http import Http404
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from .forms import ProductForm, VersionForm
+from .forms import ProductForm, VersionForm, StyleFormMixin
 from .models import Product, Contacts, Blog, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.services import sendmail
@@ -81,16 +83,17 @@ class ShopAddProduct(CreateView):
 class ShopUpdateProduct(PermissionRequiredMixin, UpdateView):
     """Update product."""
     model = Product
-    form_class = ProductForm
+    fields = ["name", "price", "category", "description", "image", "is_published"]
+    # form_class = ProductForm
     template_name = "catalog/add_product.html"
     slug_url_kwarg = "update_slug"
-    permission_required = "catalog.view_product"
+    permission_required = ("catalog.view_product")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["Title"] = "Update Product"
-        SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
 
+        SubjectFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
         if self.request.method == "POST":
             context["formset"] = SubjectFormset(self.request.POST, instance=self.object)
         else:
@@ -115,6 +118,12 @@ class ShopUpdateProduct(PermissionRequiredMixin, UpdateView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('catalog:update_product', args=(self.object.slug,))
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user:
+            raise Http404("You are not owner of this product!")
+        return self.object
 
 
 class ShopProductCard(DetailView):
@@ -201,3 +210,7 @@ class ShopDeleteBlog(TitleMixin, DeleteView):
     slug_url_kwarg = "delete_slug"
     success_url = reverse_lazy("catalog:blog")
     title = "Delete Blog"
+
+
+def no_permissions(request):
+    return render('catalog/index.html')

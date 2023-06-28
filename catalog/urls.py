@@ -1,6 +1,6 @@
 from django.urls import path
 from catalog.views import ShopHome, ShopContacts, ShopProductCard, ShopAddProduct, ShopBlog, ShopBlogCard, ShopAddBlog,\
-    ShopUpdateBlog, ShopDeleteBlog, ShopUpdateProduct
+    ShopUpdateBlog, ShopDeleteBlog, ShopUpdateProduct, no_permissions
 
 app_name = "catalog"
 
@@ -14,5 +14,6 @@ urlpatterns = [
     path("blog_card/<slug:post_slug>", ShopBlogCard.as_view(), name="blog_card"),
     path("add_blog/", ShopAddBlog.as_view(), name="add_blog"),
     path("update_blog/<slug:update_slug>", ShopUpdateBlog.as_view(), name="update_blog"),
-    path("delete_blog/<slug:delete_slug>", ShopDeleteBlog.as_view(), name="delete_blog")
+    path("delete_blog/<slug:delete_slug>", ShopDeleteBlog.as_view(), name="delete_blog"),
+    path("no_permission/", no_permissions, name="no_permission")
 ]
