@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 """
 Django settings for config project.
 
@@ -86,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '123456',
         }
 }
 
@@ -141,11 +143,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = 'n.avramenko87@gmail.com'
-EMAIL_HOST_PASSWORD = 'eifzyqqsuezhxpqu'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 AUTH_USER_MODEL = "users.User"
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379'
+    }
+}
+
+dot_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dot_env)
+
+CACHE_ENABLED = os.getenv('CACHE_ENABLED')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
