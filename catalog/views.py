@@ -3,10 +3,13 @@ from django.forms import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+
+import config.settings
 from .forms import ProductForm, VersionForm, StyleFormMixin
 from .models import Product, Contacts, Blog, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.services import sendmail
+from django.core.cache import cache
 
 
 class TitleMixin(object):
@@ -30,7 +33,16 @@ class ShopHome(TitleMixin, ListView):
     title = 'Main Page'
 
     def get_queryset(self):
-        return Product.objects.filter(is_published=True).order_by('-id')[:6]
+
+        if config.settings.CACHE_ENABLED:
+            key = 'products'
+            cache_data = cache.get(key)
+            if cache_data is None:
+                cache_data = Product.objects.filter(is_published=True).order_by('-id')[:6]
+                cache.set(key, cache_data)
+        else:
+            cache_data = Product.objects.filter(is_published=True).order_by('-id')[:6]
+        return cache_data
 
 
 class ShopContacts(TitleMixin, ListView):
@@ -141,6 +153,7 @@ class ShopProductCard(DetailView):
         context["Title"] = "Product Information"
         context["product"] = self.get_object()
         product_version = self.get_object()
+
         context["product_version"] = product_version.active_version
         return context
 
