@@ -13,3 +13,6 @@ def slugify(words: str) -> str:
                 'я': 'ya'}
 
     return d_slugify(''.join(alphabet.get(w, w) for w in words.lower()))
+
+
+

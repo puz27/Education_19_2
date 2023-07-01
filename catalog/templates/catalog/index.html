@@ -29,5 +29,9 @@
       </div>
          {% endfor %}
     </div>
+ <p class="fs-5 text-body-secondary">Here you can see our product categories.</p>
+{% for cat in Categories %}
+<li> {{ cat }} </li>
+{% endfor%}
 
 {% endblock %}

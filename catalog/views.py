@@ -8,7 +8,7 @@ import config.settings
 from .forms import ProductForm, VersionForm, StyleFormMixin
 from .models import Product, Contacts, Blog, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from catalog.services import sendmail
+from catalog.services import sendmail, get_categories
 from django.core.cache import cache
 
 
@@ -31,6 +31,7 @@ class ShopHome(TitleMixin, ListView):
     template_name = "catalog/index.html"
     context_object_name = "items"
     title = 'Main Page'
+    show_categories = get_categories
 
     def get_queryset(self):
 
@@ -43,6 +44,11 @@ class ShopHome(TitleMixin, ListView):
         else:
             cache_data = Product.objects.filter(is_published=True).order_by('-id')[:6]
         return cache_data
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Categories"] = get_categories()
+        return context
 
 
 class ShopContacts(TitleMixin, ListView):
